@@ -24,7 +24,7 @@ def about_me(request):
     if request.method == "POST":
         collaborate_request_form = CollaborateRequestForm(data=request.POST)
         if collaborate_request_form.is_valid():
-            collaborate_request.save()
+            collaborate_request_form.save()
             messages.add_message(
                 request, messages.SUCCESS,
                 'Collaboration request received! I endeavour to respond within 2 working days.'

@@ -3,6 +3,7 @@ from django.urls import reverse
 from .models import About
 from .forms import CollaborateRequestForm
 
+
 class TestAboutViews(TestCase):
 
     def setUp(self):
@@ -18,3 +19,17 @@ class TestAboutViews(TestCase):
         self.assertIn(b"About content", response.content)
         self.assertIsInstance(
             response.context['collaborate_request_form'], CollaborateRequestForm)
+
+    def test_successful_collaborate_form_submission(self):
+        """Test for submitting collaborate form on about me page"""
+        post_data = {
+            'name': 'test',
+            'email': 'test@test.com',
+            'message': 'This is a test message.',
+        }
+        response = self.client.post(reverse('about_me'), post_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(
+            b'Collaboration request received! I endeavour to respond within 2 working days.',
+            response.content
+        )
